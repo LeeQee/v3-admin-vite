@@ -6,10 +6,11 @@ import { useTagsViewStore } from "./tags-view"
 import { useSettingsStore } from "./settings"
 import { getToken, removeToken, setToken } from "@/utils/cache/cookies"
 import router, { resetRouter } from "@/router"
-import { loginApi, getUserInfoApi } from "@/api/login"
-import { type LoginRequestData } from "@/api/login/types/login"
+import { loginApi, getUserInfoApi, authLoginApi } from "@/api/login"
+import { AuthLoginRequestData, type LoginRequestData } from "@/api/login/types/login"
 import { type RouteRecordRaw } from "vue-router"
 import routeSettings from "@/config/route"
+import JSEncrypt from "jsencrypt"
 
 export const useUserStore = defineStore("user", () => {
   const token = ref<string>(getToken() || "")
@@ -29,6 +30,20 @@ export const useUserStore = defineStore("user", () => {
     const { data } = await loginApi({ username, password, code })
     setToken(data.token)
     token.value = data.token
+  }
+  /** 登录 */
+  const authLogin = async ({ account, password }: AuthLoginRequestData) => {
+    const Encry = new JSEncrypt()
+    const publicKey =
+      "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn0wChlUP05g7gBc31xml8lM3wyCsbLL7PEl/aC86IaMGv19w+D4+04RwHwyoFxK7A2xGaX8gR5CZ8eZjnn8UJySgKN6p18Zko/n2S3PhjlOt/aya/HHZvl+pAi82hJnq2VDMuTN4weLmhL108N4zj+aHLt6YnJuNn/xwfuYvCvb0j5tikeRrO+MIMc488ndDXSGA3BLK2choSOhRpsfCs8DGQPJLKgndPjitpaTkDjuGhFE/W0yPhVPx9CYtT7L/TiVkyha+ut+b0mkgvD8QLBaP530BiF78r3Fb4c4WfwUu5hn2i1IPcuEAeql+xoV5MNhqVteRUJzFmQ438OcUCQIDAQAB"
+    Encry.setPublicKey(publicKey)
+    const { data } = await authLoginApi({ account, password: <string>Encry.encrypt(password) })
+
+    window.sessionStorage.setItem("authLogin", data.tokenValue)
+    // setToken(data.tokenValue)
+    // token.value = data.tokenValue
+    setToken("token-admin")
+    token.value = "token-admin"
   }
   /** 获取用户详情 */
   const getInfo = async () => {
@@ -72,7 +87,7 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  return { token, roles, username, setRoles, login, getInfo, changeRoles, logout, resetToken }
+  return { token, roles, username, setRoles, login, getInfo, changeRoles, logout, resetToken, authLogin }
 })
 
 /** 在 setup 外使用 */

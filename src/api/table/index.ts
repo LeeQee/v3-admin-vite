@@ -4,7 +4,7 @@ import type * as Table from "./types/table"
 /** 增 */
 export function createTableDataApi(data: Table.CreateTableRequestData) {
   return request({
-    url: "table",
+    url: "/api/v1/table",
     method: "post",
     data
   })
@@ -13,7 +13,7 @@ export function createTableDataApi(data: Table.CreateTableRequestData) {
 /** 删 */
 export function deleteTableDataApi(id: string) {
   return request({
-    url: `table/${id}`,
+    url: `/api/v1/table/${id}`,
     method: "delete"
   })
 }
@@ -21,7 +21,7 @@ export function deleteTableDataApi(id: string) {
 /** 改 */
 export function updateTableDataApi(data: Table.UpdateTableRequestData) {
   return request({
-    url: "table",
+    url: "/api/v1/table",
     method: "put",
     data
   })

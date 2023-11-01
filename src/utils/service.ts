@@ -23,6 +23,7 @@ function createService() {
   // 响应拦截（可根据具体业务作出相应的调整）
   service.interceptors.response.use(
     (response) => {
+      debugger
       // apiData 是 api 返回的数据
       const apiData = response.data
       // 二进制数据则直接返回
@@ -39,9 +40,13 @@ function createService() {
         case 0:
           // 本系统采用 code === 0 来表示没有业务错误
           return apiData
+        case 200:
+          // 本系统采用 code === 200 来表示没有业务错误
+          return apiData
         case 401:
           // Token 过期时
-          return logout()
+          // return logout()
+          return apiData
         default:
           // 不是正确的 code
           ElMessage.error(apiData.message || "Error")

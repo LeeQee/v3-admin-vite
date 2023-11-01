@@ -4,3 +4,8 @@ interface ApiResponseData<T> {
   data: T
   message: string
 }
+interface ResponseData<T> {
+  code: number
+  data: T
+  msg: string
+}

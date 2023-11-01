@@ -7,6 +7,7 @@ import vueJsx from "@vitejs/plugin-vue-jsx"
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons"
 import svgLoader from "vite-svg-loader"
 import UnoCSS from "unocss/vite"
+// import { replace } from "lodash-es"
 
 /** 配置项文档：https://cn.vitejs.dev/config */
 export default (configEnv: ConfigEnv): UserConfigExport => {
@@ -41,6 +42,13 @@ export default (configEnv: ConfigEnv): UserConfigExport => {
           ws: true,
           /** 是否允许跨域 */
           changeOrigin: true
+        },
+        "/hs": {
+          target: "http://118.118.1.157:8000/",
+          ws: true,
+          /** 是否允许跨域 */
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/hs/, "")
         }
       }
     },
