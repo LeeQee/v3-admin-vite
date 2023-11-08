@@ -19,8 +19,8 @@ const loading = ref(false)
 const codeUrl = ref("")
 /** 登录表单数据 */
 const loginFormData: AuthLoginRequestData = reactive({
-  account: "admin",
-  password: "123456"
+  account: "ADMIN",
+  password: "APMapm@123"
 })
 /** 登录表单校验规则 */
 const loginFormRules: FormRules = {

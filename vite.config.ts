@@ -45,7 +45,9 @@ export default (configEnv: ConfigEnv): UserConfigExport => {
         },
         "/hs": {
           target: "http://118.118.1.157:8000/",
-          ws: true,
+          // ws: true,
+          secure: true,
+          // https: true,
           /** 是否允许跨域 */
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/hs/, "")

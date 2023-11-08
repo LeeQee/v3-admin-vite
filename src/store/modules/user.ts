@@ -38,12 +38,13 @@ export const useUserStore = defineStore("user", () => {
       "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn0wChlUP05g7gBc31xml8lM3wyCsbLL7PEl/aC86IaMGv19w+D4+04RwHwyoFxK7A2xGaX8gR5CZ8eZjnn8UJySgKN6p18Zko/n2S3PhjlOt/aya/HHZvl+pAi82hJnq2VDMuTN4weLmhL108N4zj+aHLt6YnJuNn/xwfuYvCvb0j5tikeRrO+MIMc488ndDXSGA3BLK2choSOhRpsfCs8DGQPJLKgndPjitpaTkDjuGhFE/W0yPhVPx9CYtT7L/TiVkyha+ut+b0mkgvD8QLBaP530BiF78r3Fb4c4WfwUu5hn2i1IPcuEAeql+xoV5MNhqVteRUJzFmQ438OcUCQIDAQAB"
     Encry.setPublicKey(publicKey)
     const { data } = await authLoginApi({ account, password: <string>Encry.encrypt(password) })
-
     window.sessionStorage.setItem("authLogin", data.tokenValue)
     // setToken(data.tokenValue)
     // token.value = data.tokenValue
     setToken("token-admin")
     token.value = "token-admin"
+    /** 获取当前用户的菜单 */
+    await permissionStore.getMenuTreeData("001")
   }
   /** 获取用户详情 */
   const getInfo = async () => {
